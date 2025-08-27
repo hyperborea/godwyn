@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://b8wmb4wcsiv8c"]
+
+[ext_resource type="PackedScene" uid="uid://ce6rkivqsallb" path="res://entities/player/player.tscn" id="1_f3sb7"]
+[ext_resource type="Script" uid="uid://cbugkqwtu3e06" path="res://world.gd" id="1_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://dfwajry7h2q7l" path="res://ui/health_bar.tscn" id="2_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://bmwbsh74n6hno" path="res://entities/enemy/enemy.tscn" id="2_fj7yv"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_tlwt5")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" parent="UI" node_paths=PackedStringArray("player") instance=ExtResource("2_aqk2v")]
+unique_name_in_owner = true
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 500.0
+offset_bottom = 160.0
+player = NodePath("../../Player")
+
+[node name="Background" type="Polygon2D" parent="."]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-2280, -1800, 4840, -1800, 4840, 3400, -2280, 3400)
+
+[node name="PlayArea" type="Polygon2D" parent="."]
+color = Color(0.462745, 0.396078, 0.341176, 1)
+polygon = PackedVector2Array(-1280, -800, 3840, -800, 3840, 2400, -1280, 2400)
+
+[node name="BoundaryWall" type="StaticBody2D" parent="."]
+visible = false
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="BoundaryWall"]
+polygon = PackedVector2Array(-1680, -1200, 4240, -1200, 4240, 2800, -1680, 2800, -1680, -800, -1280, -800, -1280, 2400, 3840, 2400, 3840, -800, -1680, -800)
+
+[node name="Player" parent="." instance=ExtResource("1_f3sb7")]
+unique_name_in_owner = true
+position = Vector2(1243, 740)
+
+[node name="Enemy" parent="." instance=ExtResource("2_fj7yv")]
+position = Vector2(519, 1110)
+
+[node name="Enemy2" parent="." instance=ExtResource("2_fj7yv")]
+position = Vector2(2077, 425)
+
+[node name="Enemy3" parent="." instance=ExtResource("2_fj7yv")]
+position = Vector2(2039, 1136)
+
+[node name="Enemy4" parent="." instance=ExtResource("2_fj7yv")]
+position = Vector2(525, 316)
+
+[node name="Enemy5" parent="." instance=ExtResource("2_fj7yv")]
+position = Vector2(1281, 1120)
+
+[node name="Enemy6" parent="." instance=ExtResource("2_fj7yv")]
+position = Vector2(527, 677)
+
+[node name="Enemy7" parent="." instance=ExtResource("2_fj7yv")]
+position = Vector2(1182, 314)
+
+[node name="Enemy8" parent="." instance=ExtResource("2_fj7yv")]
+position = Vector2(2004, 741)
+health = 2
