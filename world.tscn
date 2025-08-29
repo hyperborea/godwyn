@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8wmb4wcsiv8c"]
+[gd_scene load_steps=6 format=3 uid="uid://b8wmb4wcsiv8c"]
 
 [ext_resource type="PackedScene" uid="uid://ce6rkivqsallb" path="res://entities/player/player.tscn" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://cbugkqwtu3e06" path="res://world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://dfwajry7h2q7l" path="res://ui/health_bar.tscn" id="2_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://bmwbsh74n6hno" path="res://entities/enemy/enemy.tscn" id="2_fj7yv"]
+[ext_resource type="Script" uid="uid://d2g2ibloasrhx" path="res://entities/enemy_spawner.gd" id="3_spawner_script"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_tlwt5")
@@ -38,27 +39,8 @@ polygon = PackedVector2Array(-1680, -1200, 4240, -1200, 4240, 2800, -1680, 2800,
 unique_name_in_owner = true
 position = Vector2(1243, 740)
 
-[node name="Enemy" parent="." instance=ExtResource("2_fj7yv")]
-position = Vector2(519, 1110)
-
-[node name="Enemy2" parent="." instance=ExtResource("2_fj7yv")]
-position = Vector2(2077, 425)
-
-[node name="Enemy3" parent="." instance=ExtResource("2_fj7yv")]
-position = Vector2(2039, 1136)
-
-[node name="Enemy4" parent="." instance=ExtResource("2_fj7yv")]
-position = Vector2(525, 316)
-
-[node name="Enemy5" parent="." instance=ExtResource("2_fj7yv")]
-position = Vector2(1281, 1120)
-
-[node name="Enemy6" parent="." instance=ExtResource("2_fj7yv")]
-position = Vector2(527, 677)
-
-[node name="Enemy7" parent="." instance=ExtResource("2_fj7yv")]
-position = Vector2(1182, 314)
-
-[node name="Enemy8" parent="." instance=ExtResource("2_fj7yv")]
-position = Vector2(2004, 741)
-health = 2
+[node name="EnemySpawner" type="Node2D" parent="." node_paths=PackedStringArray("player")]
+unique_name_in_owner = true
+script = ExtResource("3_spawner_script")
+enemy_scene = ExtResource("2_fj7yv")
+player = NodePath("../Player")

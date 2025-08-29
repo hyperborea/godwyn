@@ -10,11 +10,17 @@ extends CharacterBody2D
 @export var max_health: int = 2
 @export var health: int = 2
 
+signal enemy_died
+
 var _overlapping_player := false
 var is_dead := false
 
 
 func _ready() -> void:
+	# Fallback: if autoload player is not found, try to find it manually
+	if not player:
+		player = get_node("/root/World/Player")
+	
 	animated_sprite.play("walking")
 	hitbox.body_entered.connect(_on_hitbox_entered)
 	hitbox.body_exited.connect(_on_hitbox_exited)
@@ -66,6 +72,7 @@ func take_damage(amount: int) -> void:
 	
 	if health <= 0:
 		is_dead = true
+		enemy_died.emit()
 		animated_sprite.play("dying")
 		await animated_sprite.animation_finished
 		animated_sprite.play("smoke")
