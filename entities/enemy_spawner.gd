@@ -6,7 +6,7 @@ extends Node2D
 @export var spawn_interval_max: float = 5.0
 @export var max_enemies: int = 10
 @export var initial_enemies: int = 3
-@export var spawn_radius_min: float = 400.0
+@export var spawn_radius_min: float = 300.0
 @export var spawn_radius_max: float = 600.0
 @export var player: Player
 
@@ -18,11 +18,11 @@ func _ready() -> void:
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	add_child(spawn_timer)
 	
-	# Spawn initial enemies
-	_spawn_initial_enemies()
-	
 	# Start spawning
 	_start_spawn_timer()
+
+	# Spawn initial enemies
+	call_deferred("_spawn_initial_enemies")
 
 func _spawn_initial_enemies() -> void:
 	for i in range(initial_enemies):

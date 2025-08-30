@@ -95,7 +95,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"dying",
-"speed": 16.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -130,7 +130,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"smoke",
-"speed": 16.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -208,7 +208,7 @@ health = 1
 position = Vector2(8, -13)
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_7nswv")
-animation = &"smoke"
+animation = &"walking"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5s4bh")

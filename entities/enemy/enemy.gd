@@ -1,6 +1,12 @@
 class_name Enemy
 extends CharacterBody2D
 
+enum State {
+	SPAWNING,
+	ALIVE,
+	DEAD
+}
+
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var player: Player = %Player
 @onready var hitbox: Area2D = $Hitbox
@@ -13,7 +19,7 @@ extends CharacterBody2D
 signal enemy_died
 
 var _overlapping_player := false
-var is_dead := false
+var current_state: State = State.SPAWNING
 
 
 func _ready() -> void:
@@ -21,13 +27,23 @@ func _ready() -> void:
 	if not player:
 		player = get_node("/root/World/Player")
 	
-	animated_sprite.play("walking")
+	_spawn_with_smoke()
 	hitbox.body_entered.connect(_on_hitbox_entered)
 	hitbox.body_exited.connect(_on_hitbox_exited)
 
 
+func _spawn_with_smoke() -> void:
+	current_state = State.SPAWNING
+	
+	animated_sprite.play("smoke")
+	await animated_sprite.animation_finished
+	
+	current_state = State.ALIVE
+	animated_sprite.play("walking")
+
+
 func _process(_delta: float) -> void:
-	if is_dead:
+	if current_state != State.ALIVE:
 		return
 
 	if _overlapping_player:
@@ -35,7 +51,7 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if is_dead:
+	if current_state != State.ALIVE:
 		return
 
 	var distance_to_player = global_position.distance_to(player.global_position)
@@ -51,17 +67,17 @@ func _physics_process(_delta: float) -> void:
 
 
 func _on_hitbox_entered(body: Node2D) -> void:
-	if body is Player:
+	if current_state == State.ALIVE and body is Player:
 		_overlapping_player = true
 
 
 func _on_hitbox_exited(body: Node2D) -> void:
-	if body is Player:
+	if current_state == State.ALIVE and body is Player:
 		_overlapping_player = false
 
 
 func take_damage(amount: int) -> void:
-	if is_dead:
+	if current_state != State.ALIVE:
 		return
 
 	health -= amount
@@ -71,10 +87,16 @@ func take_damage(amount: int) -> void:
 	animated_sprite.modulate = Color.WHITE
 	
 	if health <= 0:
-		is_dead = true
-		enemy_died.emit()
-		animated_sprite.play("dying")
-		await animated_sprite.animation_finished
-		animated_sprite.play("smoke")
-		await animated_sprite.animation_finished
-		queue_free()
+		_die()
+
+
+func _die() -> void:
+	current_state = State.DEAD
+	_overlapping_player = false
+	
+	enemy_died.emit()
+	animated_sprite.play("dying")
+	await animated_sprite.animation_finished
+	animated_sprite.play("smoke")
+	await animated_sprite.animation_finished
+	queue_free()
