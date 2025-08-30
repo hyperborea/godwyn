@@ -189,7 +189,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walking",
-"speed": 16.0
+"speed": 24.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5s4bh"]

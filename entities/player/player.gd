@@ -159,6 +159,7 @@ func change_state(new_state: State) -> void:
 			animated_sprite.play("running")
 		State.DASHING:
 			dash_timer = dash_duration
+			invincible_timer = dash_duration + 0.5
 			animated_sprite.play("sliding")
 		State.ATTACKING:
 			attack_timer = attack_duration
@@ -184,7 +185,7 @@ func reset_blink_timer() -> void:
 
 
 func take_damage(amount: int) -> void:
-	if invincible_timer > 0.0 or current_state == State.DASHING or current_state == State.DEAD:
+	if invincible_timer > 0.0 or current_state == State.DEAD:
 		return
 
 	invincible_timer = invincible_duration
