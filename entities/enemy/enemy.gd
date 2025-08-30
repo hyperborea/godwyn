@@ -35,8 +35,12 @@ func _ready() -> void:
 func _spawn_with_smoke() -> void:
 	current_state = State.SPAWNING
 	
+	# Play smoke animation at normal speed
 	animated_sprite.play("smoke")
 	await animated_sprite.animation_finished
+	
+	# Add extra delay after smoke animation
+	await get_tree().create_timer(0.1).timeout
 	
 	current_state = State.ALIVE
 	animated_sprite.play("walking")
