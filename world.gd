@@ -1,11 +1,12 @@
 extends Node2D
 
-@onready var spawner: EnemySpawner = %EnemySpawner
-@onready var game_timer: GameTimer = %GameTimer
-@onready var level_bar: LevelBar = %LevelBar
-@onready var player: Player = %Player
-@onready var attack_timer: AttackTimer = %AttackTimer
-@onready var next_wave_button: Button = %NextWaveButton
+@onready var spawner = %EnemySpawner
+@onready var game_timer = %GameTimer
+@onready var level_bar = %LevelBar
+@onready var player = %Player
+@onready var attack_timer = %AttackTimer
+@onready var next_wave_button = %NextWaveButton
+@onready var shop_menu = %ShopMenu
 
 func _ready() -> void:
 	if game_timer:
@@ -44,10 +45,16 @@ func _on_timer_finished() -> void:
 	# Show next wave button
 	if next_wave_button:
 		next_wave_button.visible = true
+	# Show shop menu
+	if shop_menu:
+		shop_menu.visible = true
+		# Refill player health at wave end
+		if player:
+			player.health = player.max_health
 
 func _on_next_wave_pressed() -> void:
 	# Reset game timer and resume spawns
-	var game_timer_node := game_timer
+	var game_timer_node = game_timer
 	if game_timer_node:
 		game_timer_node.finished_emitted = false
 		# Increase wave timer by +5 per wave
@@ -64,3 +71,32 @@ func _on_next_wave_pressed() -> void:
 		spawner.wave_bonus_health += 1
 		spawner.is_active = true
 		spawner._start_spawn_timer()
+
+# Called by shop_menu to proceed
+func start_next_wave() -> void:
+	_on_next_wave_pressed()
+
+# Apply shop choices
+func apply_shop_effect(effect_key: String) -> void:
+	match effect_key:
+		"ultimate_cooldown":
+			if attack_timer:
+				attack_timer.start_seconds = max(1, attack_timer.start_seconds - 5)
+		"auto_weapon_velocity":
+			# Reduce fire_rate by 0.5 on all auto weapons under player
+			if player:
+				for w in player.get_children():
+					if w is AutoWeapon:
+						w.fire_rate = max(0.1, w.fire_rate - 0.5)
+		"auto_weapon_damage":
+			if player:
+				for w in player.get_children():
+					if w is AutoWeapon:
+						w.bullet_damage += 1
+		"speed":
+			if player:
+				player.move_speed += 100.0
+		"health":
+			if player:
+				player.max_health += 5
+				player.health += 5
