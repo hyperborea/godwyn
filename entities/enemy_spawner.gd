@@ -13,11 +13,13 @@ extends Node2D
 var spawn_timer: Timer
 var current_enemies: Array[Enemy] = []
 var is_active: bool = true
+var _play_area_rect: Rect2
 
 func _ready() -> void:
 	spawn_timer = Timer.new()
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	add_child(spawn_timer)
+	_cache_play_area_rect()
 	
 	# Start spawning
 	_start_spawn_timer()
@@ -55,6 +57,11 @@ func _spawn_enemy() -> void:
 	var spawn_distance = randf_range(spawn_radius_min, spawn_radius_max)
 	var spawn_offset = Vector2(cos(spawn_angle), sin(spawn_angle)) * spawn_distance
 	var spawn_position = player.global_position + spawn_offset
+
+	# Clamp to play area bounds if available
+	if _play_area_rect and _play_area_rect.size != Vector2.ZERO:
+		spawn_position.x = clamp(spawn_position.x, _play_area_rect.position.x, _play_area_rect.position.x + _play_area_rect.size.x)
+		spawn_position.y = clamp(spawn_position.y, _play_area_rect.position.y, _play_area_rect.position.y + _play_area_rect.size.y)
 	
 	enemy_instance.global_position = spawn_position
 	enemy_instance.add_to_group("enemies")  # Add to group for weapon detection
@@ -100,3 +107,21 @@ func clear_all_enemies() -> void:
 			node.queue_free()
 	current_enemies.clear()
 	print("EnemySpawner: Cleared all enemies")
+
+func _cache_play_area_rect() -> void:
+	# Try to find sibling Polygon2D named PlayArea and compute its AABB
+	var play_area := get_node_or_null("../PlayArea") as Polygon2D
+	if play_area and play_area.polygon.size() > 0:
+		var min_x := INF
+		var min_y := INF
+		var max_x := -INF
+		var max_y := -INF
+		for p in play_area.polygon:
+			min_x = min(min_x, p.x)
+			min_y = min(min_y, p.y)
+			max_x = max(max_x, p.x)
+			max_y = max(max_y, p.y)
+		_play_area_rect = Rect2(Vector2(min_x, min_y), Vector2(max_x - min_x, max_y - min_y))
+	else:
+		# Fallback to an empty rect
+		_play_area_rect = Rect2()
