@@ -12,6 +12,7 @@ extends Node2D
 
 var spawn_timer: Timer
 var current_enemies: Array[Enemy] = []
+var is_active: bool = true
 
 func _ready() -> void:
 	spawn_timer = Timer.new()
@@ -29,16 +30,22 @@ func _spawn_initial_enemies() -> void:
 		_spawn_multiple_enemies()
 
 func _start_spawn_timer() -> void:
+	if not is_active:
+		return
 	var random_time = randf_range(spawn_interval_min, spawn_interval_max)
 	spawn_timer.start(random_time)
 
 func _on_spawn_timer_timeout() -> void:
+	if not is_active:
+		return
 	if current_enemies.size() < max_enemies:
 		_spawn_multiple_enemies()
 	
 	_start_spawn_timer()
 
 func _spawn_enemy() -> void:
+	if not is_active:
+		return
 	var enemy_instance = enemy_scene.instantiate() as Enemy
 	if not enemy_instance:
 		return
@@ -58,6 +65,8 @@ func _spawn_enemy() -> void:
 	enemy_instance.enemy_died.connect(_on_enemy_died.bind(enemy_instance))
 
 func _spawn_multiple_enemies() -> void:
+	if not is_active:
+		return
 	# Spawn 2-6 enemies
 	var spawn_count = randi_range(2, 6)
 	
@@ -77,3 +86,17 @@ func stop_spawning() -> void:
 	if spawn_timer:
 		spawn_timer.stop()
 		print("EnemySpawner: Spawning stopped")
+	is_active = false
+
+func clear_all_enemies() -> void:
+	# Queue free all tracked enemies
+	for enemy in current_enemies.duplicate():
+		if is_instance_valid(enemy):
+			enemy.queue_free()
+	# Also clear any remaining nodes in the group as a safety net
+	var group_nodes = get_tree().get_nodes_in_group("enemies")
+	for node in group_nodes:
+		if node is Enemy and is_instance_valid(node):
+			node.queue_free()
+	current_enemies.clear()
+	print("EnemySpawner: Cleared all enemies")

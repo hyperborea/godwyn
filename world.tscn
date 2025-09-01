@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=4 uid="uid://b8wmb4wcsiv8c"]
+[gd_scene load_steps=8 format=4 uid="uid://b8wmb4wcsiv8c"]
 
 [ext_resource type="PackedScene" uid="uid://ce6rkivqsallb" path="res://entities/player/player.tscn" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://cbugkqwtu3e06" path="res://world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://dfwajry7h2q7l" path="res://ui/health_bar.tscn" id="2_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://bmwbsh74n6hno" path="res://entities/enemy/enemy.tscn" id="2_fj7yv"]
 [ext_resource type="TileSet" uid="uid://c688padpwf0wo" path="res://terrain/tileset.tres" id="3_dwbse"]
+[ext_resource type="PackedScene" path="res://ui/game_timer.tscn" id="3_game_timer"]
 [ext_resource type="Script" uid="uid://d2g2ibloasrhx" path="res://entities/enemy_spawner.gd" id="3_spawner_script"]
 
 [node name="World" type="Node2D"]
@@ -19,6 +20,13 @@ offset_top = 100.0
 offset_right = 500.0
 offset_bottom = 160.0
 player = NodePath("../../Player")
+
+[node name="GameTimer" parent="UI" instance=ExtResource("3_game_timer")]
+unique_name_in_owner = true
+anchors_preset = 5
+offset_top = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
 
 [node name="Background" type="Polygon2D" parent="."]
 color = Color(0, 0, 0, 1)
