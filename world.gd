@@ -7,6 +7,9 @@ extends Node2D
 @onready var attack_timer = %AttackTimer
 @onready var next_wave_button = %NextWaveButton
 @onready var shop_menu = %ShopMenu
+@onready var money_label: Label = %MoneyLabel
+var money: int = 0
+@onready var health_bar: HealthBar = %HealthBar
 
 func _ready() -> void:
 	if game_timer:
@@ -18,12 +21,58 @@ func _ready() -> void:
 			level_bar = lb
 	if spawner and level_bar:
 		spawner.enemy_killed.connect(level_bar.on_enemy_killed)
+	if level_bar:
+		level_bar.level_up.connect(_on_level_up)
+	if spawner:
+		spawner.enemy_killed.connect(_on_enemy_killed_reward)
+		spawner.enemy_killed_at.connect(_on_enemy_killed_at)
 	# Provide player access to attack cooldown timer if needed
 	if player and attack_timer:
 		player.set_meta("attack_timer_path", attack_timer.get_path())
 	# Wire next wave button
 	if next_wave_button:
 		next_wave_button.pressed.connect(_on_next_wave_pressed)
+
+func _on_enemy_killed_reward() -> void:
+	# retained for other rewards (not used for money now)
+	pass
+
+func _on_enemy_killed_at(pos: Vector2) -> void:
+	var gain := randi_range(0, 3)
+	if gain <= 0:
+		return
+	var pickup_scene := load("res://entities/money_pickup.tscn") as PackedScene
+	if pickup_scene:
+		for i in range(gain):
+			var p := pickup_scene.instantiate()
+			if p:
+				p.amount = 1
+				var ang := randf() * TAU
+				var dist := randf_range(5.0, 25.0)
+				var off := Vector2(cos(ang), sin(ang)) * dist
+				p.global_position = pos + off
+				add_child(p)
+
+func add_money(amount: int) -> void:
+	money += amount
+	if money_label:
+		money_label.text = "Money: " + str(money)
+
+func spend_money(cost: int) -> bool:
+	if money < cost:
+		return false
+	money -= cost
+	if money_label:
+		money_label.text = "Money: " + str(money)
+	return true
+
+func _on_level_up(_new_level: int) -> void:
+	# +1 max health on each level up during the wave
+	if player:
+		player.max_health += 1
+		# Keep current health unchanged; just refresh UI
+		if health_bar:
+			health_bar.refresh()
 
 func _on_timer_finished() -> void:
 	if spawner:
@@ -47,7 +96,11 @@ func _on_timer_finished() -> void:
 		next_wave_button.visible = true
 	# Show shop menu
 	if shop_menu:
-		shop_menu.visible = true
+		# Prefer opening via method to refresh items
+		if shop_menu.has_method("open_shop"):
+			shop_menu.open_shop()
+		else:
+			shop_menu.visible = true
 		# Refill player health at wave end
 		if player:
 			player.health = player.max_health
@@ -71,6 +124,12 @@ func _on_next_wave_pressed() -> void:
 		spawner.wave_bonus_health += 1
 		spawner.is_active = true
 		spawner._start_spawn_timer()
+	# +1 max health per wave
+	if player:
+		player.max_health += 1
+		player.health = min(player.max_health, player.health)
+		if health_bar:
+			health_bar.refresh()
 
 # Called by shop_menu to proceed
 func start_next_wave() -> void:
@@ -100,3 +159,8 @@ func apply_shop_effect(effect_key: String) -> void:
 			if player:
 				player.max_health += 5
 				player.health += 5
+
+func get_wave() -> int:
+	if game_timer and game_timer.has_method("get_wave"):
+		return game_timer.get_wave()
+	return 1

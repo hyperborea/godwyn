@@ -16,6 +16,7 @@ var current_enemies: Array[Enemy] = []
 var is_active: bool = true
 var _play_area_rect: Rect2
 signal enemy_killed
+signal enemy_killed_at(pos: Vector2)
 var wave_bonus_health: int = 0
 
 func _ready() -> void:
@@ -92,6 +93,7 @@ func _spawn_multiple_enemies() -> void:
 func _on_enemy_died(enemy: Enemy) -> void:
 	current_enemies.erase(enemy)
 	enemy_killed.emit()
+	enemy_killed_at.emit(enemy.global_position)
 
 func get_enemy_count() -> int:
 	return current_enemies.size()

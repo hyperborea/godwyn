@@ -19,17 +19,35 @@ var current_items: Array = []
 ]
 @onready var close_button: Button = $Panel/VBox/CloseButton
 
+const BASE_COST := 10
+const COST_PER_WAVE := 3
+
 func _ready() -> void:
 	randomize_items()
 	_connect_buttons()
+
+func open_shop() -> void:
+	randomize_items()
+	for b in buttons:
+		b.disabled = false
+		b.visible = true
+	visible = true
+
+func _current_cost() -> int:
+	var wave := 1
+	var world = get_tree().current_scene
+	if world and world.has_method("get_wave"):
+		wave = world.get_wave()
+	return BASE_COST + COST_PER_WAVE * max(0, wave - 1)
 
 func randomize_items() -> void:
 	current_items = ALL_ITEMS.duplicate()
 	current_items.shuffle()
 	current_items = current_items.slice(0, 4)
+	var cost := _current_cost()
 	for i in range(buttons.size()):
 		var key: String = str(current_items[i])
-		buttons[i].text = _item_to_label(key) + "\n(" + key + ")"
+		buttons[i].text = _item_to_label(key) + "\n(" + key + ")\nCost: " + str(cost)
 
 func _connect_buttons() -> void:
 	for i in range(buttons.size()):
@@ -39,9 +57,17 @@ func _connect_buttons() -> void:
 func _on_item_pressed(idx: int) -> void:
 	if idx < 0 or idx >= current_items.size():
 		return
+	var world = get_tree().current_scene
+	if not world or not world.has_method("spend_money"):
+		return
+	var cost := _current_cost()
+	if not world.spend_money(cost):
+		return
 	var effect_key: String = str(current_items[idx])
 	_apply_effect(effect_key)
-	_hide_and_next_wave()
+	# Hide/disable this item for this wave
+	buttons[idx].disabled = true
+	buttons[idx].visible = false
 
 func _on_close_pressed() -> void:
 	_hide_and_next_wave()

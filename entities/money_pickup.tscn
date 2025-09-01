@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://money_pickup_scene_01"]
+
+[ext_resource type="Script" path="res://entities/money_pickup.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectShape2D_body"]
+extents = Vector2(10, 10)
+
+[node name="MoneyPickup" type="Area2D"]
+script = ExtResource("1_script")
+collision_layer = 0
+collision_mask = 1
+z_as_relative = false
+z_index = 100
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectShape2D_body")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0, 1, 0, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+z_as_relative = false
+z_index = 50
+
+[node name="Label" type="Label" parent="."]
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = -8.0
+text = ""

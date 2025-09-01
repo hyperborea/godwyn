@@ -50,6 +50,16 @@ unique_name_in_owner = true
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="MoneyLabel" type="Label" parent="UI"]
+unique_name_in_owner = true
+offset_left = 100.0
+offset_top = 168.0
+offset_right = 400.0
+offset_bottom = 200.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 28
+text = "Money: 0"
+
 [node name="Background" type="Polygon2D" parent="."]
 color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(-2280, -1800, 4840, -1800, 4840, 3400, -2280, 3400)

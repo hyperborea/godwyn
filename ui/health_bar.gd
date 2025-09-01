@@ -20,5 +20,11 @@ func _on_health_changed(new_health: int) -> void:
 	label.text = _format_string()
 
 
+func refresh() -> void:
+	progress_bar.max_value = player.max_health
+	progress_bar.value = player.health
+	label.text = _format_string()
+
+
 func _format_string() -> String:
 	return str(player.health) + " / " + str(player.max_health)
