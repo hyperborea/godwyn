@@ -4,6 +4,7 @@ extends Node2D
 @onready var game_timer: GameTimer = %GameTimer
 @onready var level_bar: LevelBar = %LevelBar
 @onready var player: Player = %Player
+@onready var attack_timer: AttackTimer = %AttackTimer
 
 func _ready() -> void:
 	if game_timer:
@@ -15,6 +16,9 @@ func _ready() -> void:
 			level_bar = lb
 	if spawner and level_bar:
 		spawner.enemy_killed.connect(level_bar.on_enemy_killed)
+	# Provide player access to attack cooldown timer if needed
+	if player and attack_timer:
+		player.set_meta("attack_timer_path", attack_timer.get_path())
 
 func _on_timer_finished() -> void:
 	if spawner:

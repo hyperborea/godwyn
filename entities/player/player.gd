@@ -68,7 +68,17 @@ func _physics_process(delta: float) -> void:
 
 func handle_input() -> void:
 	if Input.is_action_just_pressed("attack") and current_state != State.ATTACKING and current_state != State.DASHING:
-		change_state(State.ATTACKING)
+		var can_attack := true
+		var timer_path = get_meta("attack_timer_path") if has_meta("attack_timer_path") else null
+		if timer_path:
+			var atk_timer = get_node_or_null(timer_path) as AttackTimer
+			if atk_timer:
+				if not atk_timer.is_ready():
+					can_attack = false
+				else:
+					atk_timer.start()
+		if can_attack:
+			change_state(State.ATTACKING)
 	elif Input.is_action_just_pressed("dash") and current_state != State.DASHING and current_state != State.ATTACKING:
 		change_state(State.DASHING)
 
@@ -204,12 +214,8 @@ func take_damage(amount: int) -> void:
 
 func position_attack_box() -> void:
 	var collision_shape = attack_box.get_child(0) as CollisionShape2D
-	var base_x = abs(collision_shape.position.x)
-	
-	if direction == Direction.LEFT:
-		collision_shape.position.x = - base_x
-	else:
-		collision_shape.position.x = base_x
+	# Keep the attack box centered; no flipping
+	collision_shape.position = Vector2.ZERO
 
 
 func damage_enemies_in_front() -> void:

@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://attack_timer_scene_01"]
+
+[ext_resource type="Script" path="res://ui/attack_timer.gd" id="1_script"]
+
+[node name="AttackTimer" type="Control"]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -60.0
+offset_right = 0.0
+offset_bottom = 0.0
+pivot_offset = Vector2(0, 0)
+script = ExtResource("1_script")
+start_seconds = 15
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 0.0
+offset_bottom = -60.0
+horizontal_alignment = 2
+vertical_alignment = 2
+theme_override_font_sizes/font_size = 24
+text = "Ultimate Timer"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -60.0
+offset_right = 0.0
+offset_bottom = 0.0
+horizontal_alignment = 2
+vertical_alignment = 2
+theme_override_font_sizes/font_size = 36
+text = "15"

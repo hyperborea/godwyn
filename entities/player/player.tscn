@@ -353,6 +353,8 @@ size = Vector2(126, 167)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dnai7"]
 size = Vector2(239, 182)
+[sub_resource type="CircleShape2D" id="CircleShape2D_attack"]
+radius = 500.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 4
@@ -388,7 +390,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox"]
-position = Vector2(119.5, 3)
-shape = SubResource("RectangleShape2D_dnai7")
+position = Vector2(0, 0)
+shape = SubResource("CircleShape2D_attack")
 
 [node name="AutoWeapon" parent="." instance=ExtResource("1_auto_weapon_scene")]
