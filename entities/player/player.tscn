@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=3 uid="uid://ce6rkivqsallb"]
+[gd_scene load_steps=84 format=3 uid="uid://ce6rkivqsallb"]
 
 [ext_resource type="Script" uid="uid://c68olrgrvuioh" path="res://entities/player/player.gd" id="1_geky7"]
 [ext_resource type="Texture2D" uid="uid://dtpmtj1m0cjdo" path="res://entities/player/animations/Idle/0_Dark_Oracle_Idle_000.png" id="1_gx6sm"]
@@ -79,6 +79,7 @@
 [ext_resource type="Texture2D" uid="uid://bgh0m8dc77h2r" path="res://entities/player/animations/Idle Blinking/0_Dark_Oracle_Idle Blinking_016.png" id="33_bwbc3"]
 [ext_resource type="Texture2D" uid="uid://xegqxvbkalqs" path="res://entities/player/animations/Sliding/0_Dark_Oracle_Sliding_005.png" id="34_3y563"]
 [ext_resource type="Texture2D" uid="uid://cjrsbf80li004" path="res://entities/player/animations/Idle Blinking/0_Dark_Oracle_Idle Blinking_017.png" id="34_b21vv"]
+[ext_resource type="PackedScene" uid="uid://c1d2e3f4g5h6i" path="res://entities/player/auto_weapon.tscn" id="1_auto_weapon_scene"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_24ehl"]
 animations = [{
@@ -389,3 +390,5 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox"]
 position = Vector2(119.5, 3)
 shape = SubResource("RectangleShape2D_dnai7")
+
+[node name="AutoWeapon" parent="." instance=ExtResource("1_auto_weapon_scene")]

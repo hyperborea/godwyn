@@ -13,6 +13,7 @@ var fire_timer: float = 0.0
 var orbit_angle: float = 0.0
 var player: Player
 var enemies: Array[Enemy] = []
+var flash_timer: float = 0.0
 
 func _ready() -> void:
 	# Find the player
@@ -34,6 +35,12 @@ func _process(delta: float) -> void:
 	
 	# Update fire timer
 	fire_timer -= delta
+	
+	# Update flash timer
+	if flash_timer > 0.0:
+		flash_timer -= delta
+		if flash_timer <= 0.0:
+			modulate = Color.WHITE
 	
 	# Find enemies and shoot if timer is ready
 	if fire_timer <= 0.0:
@@ -101,6 +108,10 @@ func shoot_at_closest_enemy() -> void:
 	
 	# Play sound effect if available
 	# play_shoot_sound()
+	
+	# Visual feedback - briefly flash the weapon
+	modulate = Color(2.0, 2.0, 2.0, 1.0)
+	flash_timer = 0.1
 
 func play_shoot_sound() -> void:
 	# TODO: Add sound effect
