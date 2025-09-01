@@ -5,6 +5,7 @@ extends Node2D
 @onready var level_bar: LevelBar = %LevelBar
 @onready var player: Player = %Player
 @onready var attack_timer: AttackTimer = %AttackTimer
+@onready var next_wave_button: Button = %NextWaveButton
 
 func _ready() -> void:
 	if game_timer:
@@ -19,6 +20,9 @@ func _ready() -> void:
 	# Provide player access to attack cooldown timer if needed
 	if player and attack_timer:
 		player.set_meta("attack_timer_path", attack_timer.get_path())
+	# Wire next wave button
+	if next_wave_button:
+		next_wave_button.pressed.connect(_on_next_wave_pressed)
 
 func _on_timer_finished() -> void:
 	if spawner:
@@ -37,3 +41,26 @@ func _on_timer_finished() -> void:
 					player.add_child(w)
 					# Stagger orbit start angles for multiple weapons
 					w.orbit_angle = float(i) * (360.0 / float(level))
+	# Show next wave button
+	if next_wave_button:
+		next_wave_button.visible = true
+
+func _on_next_wave_pressed() -> void:
+	# Reset game timer and resume spawns
+	var game_timer_node := game_timer
+	if game_timer_node:
+		game_timer_node.finished_emitted = false
+		# Increase wave timer by +5 per wave
+		game_timer_node.start_seconds += 5
+		game_timer_node.time_left = float(max(0, game_timer_node.start_seconds))
+		# Increment wave number and update label
+		game_timer_node.set_wave(game_timer_node.get_wave() + 1)
+	# Hide the button
+	if next_wave_button:
+		next_wave_button.visible = false
+	# Reactivate spawner
+	if spawner:
+		# Increase enemy health bonus by 1 each wave
+		spawner.wave_bonus_health += 1
+		spawner.is_active = true
+		spawner._start_spawn_timer()

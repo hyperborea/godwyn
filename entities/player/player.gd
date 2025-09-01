@@ -14,7 +14,7 @@ signal player_died
 
 @export var max_health: int = 10
 @export var health: int = 10
-@export var attack_damage: int = 1
+@export var attack_damage: int = 5
 @export var attack_duration: float = 0.5
 
 var invincible_timer: float = 0.0

@@ -9,12 +9,14 @@ extends Node2D
 @export var spawn_radius_min: float = 300.0
 @export var spawn_radius_max: float = 600.0
 @export var player: Player
+@export var health_per_wave_increase: int = 1
 
 var spawn_timer: Timer
 var current_enemies: Array[Enemy] = []
 var is_active: bool = true
 var _play_area_rect: Rect2
 signal enemy_killed
+var wave_bonus_health: int = 0
 
 func _ready() -> void:
 	spawn_timer = Timer.new()
@@ -65,6 +67,10 @@ func _spawn_enemy() -> void:
 		spawn_position.y = clamp(spawn_position.y, _play_area_rect.position.y, _play_area_rect.position.y + _play_area_rect.size.y)
 	
 	enemy_instance.global_position = spawn_position
+	# Apply wave-based health bonus
+	if wave_bonus_health > 0:
+		enemy_instance.max_health += wave_bonus_health * health_per_wave_increase
+		enemy_instance.health = enemy_instance.max_health
 	enemy_instance.add_to_group("enemies")  # Add to group for weapon detection
 	get_parent().add_child(enemy_instance)
 	

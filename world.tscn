@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://b8wmb4wcsiv8c"]
+[gd_scene load_steps=11 format=4 uid="uid://b8wmb4wcsiv8c"]
 
 [ext_resource type="PackedScene" uid="uid://ce6rkivqsallb" path="res://entities/player/player.tscn" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://cbugkqwtu3e06" path="res://world.gd" id="1_tlwt5"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://d2g2ibloasrhx" path="res://entities/enemy_spawner.gd" id="3_spawner_script"]
 [ext_resource type="PackedScene" path="res://ui/level_bar.tscn" id="4_level_bar"]
 [ext_resource type="PackedScene" path="res://ui/attack_timer.tscn" id="5_attack_timer"]
+[ext_resource type="PackedScene" path="res://ui/next_wave_button.tscn" id="6_next_wave_button"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_tlwt5")
@@ -35,6 +36,11 @@ grow_horizontal = 2
 [node name="AttackTimer" parent="UI" instance=ExtResource("5_attack_timer")]
 unique_name_in_owner = true
 grow_horizontal = 0
+grow_vertical = 0
+
+[node name="NextWaveButton" parent="UI" instance=ExtResource("6_next_wave_button")]
+unique_name_in_owner = true
+visible = false
 grow_vertical = 0
 
 [node name="Background" type="Polygon2D" parent="."]
