@@ -14,6 +14,7 @@ var spawn_timer: Timer
 var current_enemies: Array[Enemy] = []
 var is_active: bool = true
 var _play_area_rect: Rect2
+signal enemy_killed
 
 func _ready() -> void:
 	spawn_timer = Timer.new()
@@ -84,6 +85,7 @@ func _spawn_multiple_enemies() -> void:
 
 func _on_enemy_died(enemy: Enemy) -> void:
 	current_enemies.erase(enemy)
+	enemy_killed.emit()
 
 func get_enemy_count() -> int:
 	return current_enemies.size()
