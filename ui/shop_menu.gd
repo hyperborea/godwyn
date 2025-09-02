@@ -7,6 +7,7 @@ const ALL_ITEMS := [
 	"auto_weapon_damage",
 	"speed",
 	"health",
+	"saw_blade",
 ]
 
 var current_items: Array = []
@@ -172,5 +173,7 @@ func _item_to_label(key: String) -> String:
 			return "Speed: +100"
 		"health":
 			return "Health: +5"
+		"saw_blade":
+			return "Saw blade: orbiting blade (+3 dmg)"
 		_:
 			return key

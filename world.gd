@@ -76,12 +76,13 @@ func _on_level_up(_new_level: int) -> void:
 		# Also grant +1 current health on level
 		player.health = min(player.max_health, player.health + 1)
 		# Grant exactly one auto weapon per level up
-		var weapon_scene: PackedScene = load("res://entities/player/auto_weapon.tscn") as PackedScene
-		if weapon_scene:
-			var w: AutoWeapon = weapon_scene.instantiate() as AutoWeapon
-			if w:
-				player.add_child(w)
-				_redistribute_auto_weapons()
+		if _count_auto_weapons() < 10:
+			var weapon_scene: PackedScene = load("res://entities/player/auto_weapon.tscn") as PackedScene
+			if weapon_scene:
+				var w: AutoWeapon = weapon_scene.instantiate() as AutoWeapon
+				if w:
+					player.add_child(w)
+					_redistribute_auto_weapons()
 		# Keep current health unchanged; just refresh UI
 		if health_bar:
 			health_bar.refresh()
@@ -153,6 +154,13 @@ func apply_shop_effect(effect_key: String) -> void:
 			if player:
 				player.max_health += 5
 				player.health += 5
+		"saw_blade":
+			if player:
+				var sb_scene: PackedScene = load("res://entities/player/saw_blade.tscn") as PackedScene
+				if sb_scene:
+					var sb: SawBlade = sb_scene.instantiate() as SawBlade
+					if sb:
+						player.add_child(sb)
 
 func get_wave() -> int:
 	if game_timer and game_timer.has_method("get_wave"):
@@ -171,3 +179,12 @@ func _redistribute_auto_weapons() -> void:
 		return
 	for i in range(n):
 		(weapons[i] as AutoWeapon).orbit_angle = float(i) * (360.0 / float(n))
+
+func _count_auto_weapons() -> int:
+	if not player:
+		return 0
+	var count: int = 0
+	for c in player.get_children():
+		if c is AutoWeapon:
+			count += 1
+	return count
