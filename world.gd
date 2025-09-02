@@ -124,6 +124,7 @@ func _on_next_wave_pressed() -> void:
 		spawner.wave_bonus_health += 1
 		spawner.is_active = true
 		spawner._start_spawn_timer()
+		spawner.spawn_initial_enemies()
 	# +1 max health per wave
 	if player:
 		player.max_health += 1

@@ -29,11 +29,22 @@ func _ready() -> void:
 	_start_spawn_timer()
 
 	# Spawn initial enemies
-	call_deferred("_spawn_initial_enemies")
+	call_deferred("spawn_initial_enemies")
 
 func _spawn_initial_enemies() -> void:
-	if player:
-		_spawn_multiple_enemies()
+	# Deprecated: kept for backward compatibility
+	spawn_initial_enemies()
+
+func spawn_initial_enemies() -> void:
+	if not is_active:
+		return
+	if not player:
+		return
+	# Spawn exactly initial_enemies around the player
+	for i in range(initial_enemies):
+		if current_enemies.size() >= max_enemies:
+			break
+		_spawn_enemy()
 
 func _start_spawn_timer() -> void:
 	if not is_active:
