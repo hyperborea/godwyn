@@ -58,6 +58,9 @@ func add_money(amount: int) -> void:
 	if money_label:
 		money_label.text = "Money: " + str(money)
 
+func can_afford(cost: int) -> bool:
+	return money >= cost
+
 func spend_money(cost: int) -> bool:
 	if money < cost:
 		return false
@@ -70,6 +73,15 @@ func _on_level_up(_new_level: int) -> void:
 	# +1 max health on each level up during the wave
 	if player:
 		player.max_health += 1
+		# Also grant +1 current health on level
+		player.health = min(player.max_health, player.health + 1)
+		# Grant exactly one auto weapon per level up
+		var weapon_scene := load("res://entities/player/auto_weapon.tscn") as PackedScene
+		if weapon_scene:
+			var w := weapon_scene.instantiate()
+			if w:
+				player.add_child(w)
+				_redistribute_auto_weapons()
 		# Keep current health unchanged; just refresh UI
 		if health_bar:
 			health_bar.refresh()
@@ -78,19 +90,6 @@ func _on_timer_finished() -> void:
 	if spawner:
 		spawner.stop_spawning()
 		spawner.clear_all_enemies()
-	# Grant extra auto weapons based on level at wave end
-	var level := 0
-	if level_bar:
-		level = level_bar.get_level()
-	if level > 0 and player:
-		var weapon_scene := load("res://entities/player/auto_weapon.tscn") as PackedScene
-		if weapon_scene:
-			for i in range(level):
-				var w := weapon_scene.instantiate()
-				if w:
-					player.add_child(w)
-					# Stagger orbit start angles for multiple weapons
-					w.orbit_angle = float(i) * (360.0 / float(level))
 	# Show next wave button
 	if next_wave_button:
 		next_wave_button.visible = true
@@ -125,12 +124,6 @@ func _on_next_wave_pressed() -> void:
 		spawner.is_active = true
 		spawner._start_spawn_timer()
 		spawner.spawn_initial_enemies()
-	# +1 max health per wave
-	if player:
-		player.max_health += 1
-		player.health = min(player.max_health, player.health)
-		if health_bar:
-			health_bar.refresh()
 
 # Called by shop_menu to proceed
 func start_next_wave() -> void:
@@ -165,3 +158,16 @@ func get_wave() -> int:
 	if game_timer and game_timer.has_method("get_wave"):
 		return game_timer.get_wave()
 	return 1
+
+func _redistribute_auto_weapons() -> void:
+	if not player:
+		return
+	var weapons: Array = []
+	for c in player.get_children():
+		if c is AutoWeapon:
+			weapons.append(c)
+	var n := weapons.size()
+	if n == 0:
+		return
+	for i in range(n):
+		weapons[i].orbit_angle = float(i) * (360.0 / float(n))

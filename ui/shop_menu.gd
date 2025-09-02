@@ -32,6 +32,7 @@ func open_shop() -> void:
 		b.disabled = false
 		b.visible = true
 	visible = true
+	_update_affordability_tints()
 
 func _current_cost() -> int:
 	var wave := 1
@@ -68,6 +69,7 @@ func _on_item_pressed(idx: int) -> void:
 	# Hide/disable this item for this wave
 	buttons[idx].disabled = true
 	buttons[idx].visible = false
+	_update_affordability_tints()
 
 func _on_close_pressed() -> void:
 	_hide_and_next_wave()
@@ -82,6 +84,20 @@ func _apply_effect(effect_key: String) -> void:
 	var world = get_tree().current_scene
 	if world and world.has_method("apply_shop_effect"):
 		world.apply_shop_effect(effect_key)
+
+func _update_affordability_tints() -> void:
+	var world = get_tree().current_scene
+	var cost := _current_cost()
+	var can_buy := true
+	if world and world.has_method("can_afford"):
+		can_buy = world.can_afford(cost)
+	for b in buttons:
+		if not b.visible:
+			continue
+		if can_buy:
+			b.modulate = Color(1,1,1,1)
+		else:
+			b.modulate = Color(1,0.8,0.8,1)
 
 func _item_to_label(key: String) -> String:
 	match key:
