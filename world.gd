@@ -16,7 +16,7 @@ func _ready() -> void:
 		game_timer.timer_finished.connect(_on_timer_finished)
 	# Connect enemy killed signal to level bar, with fallbacks
 	if not level_bar:
-		var lb = get_node_or_null("UI/LevelBar") as LevelBar
+		var lb: LevelBar = get_node_or_null("UI/LevelBar") as LevelBar
 		if lb:
 			level_bar = lb
 	if spawner and level_bar:
@@ -38,18 +38,18 @@ func _on_enemy_killed_reward() -> void:
 	pass
 
 func _on_enemy_killed_at(pos: Vector2) -> void:
-	var gain := randi_range(0, 3)
+	var gain: int = randi_range(0, 3)
 	if gain <= 0:
 		return
-	var pickup_scene := load("res://entities/money_pickup.tscn") as PackedScene
+	var pickup_scene: PackedScene = load("res://entities/money_pickup.tscn") as PackedScene
 	if pickup_scene:
 		for i in range(gain):
-			var p := pickup_scene.instantiate()
+			var p: MoneyPickup = pickup_scene.instantiate() as MoneyPickup
 			if p:
 				p.amount = 1
-				var ang := randf() * TAU
-				var dist := randf_range(5.0, 25.0)
-				var off := Vector2(cos(ang), sin(ang)) * dist
+				var ang: float = randf() * TAU
+				var dist: float = randf_range(5.0, 25.0)
+				var off: Vector2 = Vector2(cos(ang), sin(ang)) * dist
 				p.global_position = pos + off
 				add_child(p)
 
@@ -76,9 +76,9 @@ func _on_level_up(_new_level: int) -> void:
 		# Also grant +1 current health on level
 		player.health = min(player.max_health, player.health + 1)
 		# Grant exactly one auto weapon per level up
-		var weapon_scene := load("res://entities/player/auto_weapon.tscn") as PackedScene
+		var weapon_scene: PackedScene = load("res://entities/player/auto_weapon.tscn") as PackedScene
 		if weapon_scene:
-			var w := weapon_scene.instantiate()
+			var w: AutoWeapon = weapon_scene.instantiate() as AutoWeapon
 			if w:
 				player.add_child(w)
 				_redistribute_auto_weapons()
@@ -106,7 +106,7 @@ func _on_timer_finished() -> void:
 
 func _on_next_wave_pressed() -> void:
 	# Reset game timer and resume spawns
-	var game_timer_node = game_timer
+	var game_timer_node: GameTimer = game_timer as GameTimer
 	if game_timer_node:
 		game_timer_node.finished_emitted = false
 		# Increase wave timer by +5 per wave
@@ -166,8 +166,8 @@ func _redistribute_auto_weapons() -> void:
 	for c in player.get_children():
 		if c is AutoWeapon:
 			weapons.append(c)
-	var n := weapons.size()
+	var n: int = weapons.size()
 	if n == 0:
 		return
 	for i in range(n):
-		weapons[i].orbit_angle = float(i) * (360.0 / float(n))
+		(weapons[i] as AutoWeapon).orbit_angle = float(i) * (360.0 / float(n))

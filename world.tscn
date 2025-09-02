@@ -85,7 +85,7 @@ polygon = PackedVector2Array(-1680, -1200, 4240, -1200, 4240, 2800, -1680, 2800,
 
 [node name="Player" parent="." instance=ExtResource("1_f3sb7")]
 unique_name_in_owner = true
-position = Vector2(1243, 740)
+position = Vector2(1245, 740)
 
 [node name="EnemySpawner" type="Node2D" parent="." node_paths=PackedStringArray("player")]
 unique_name_in_owner = true
