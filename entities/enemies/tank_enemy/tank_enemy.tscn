@@ -1,0 +1,221 @@
+[gd_scene load_steps=48 format=3 uid="uid://nerqw4hoef0q"]
+
+[ext_resource type="Script" uid="uid://p012axl52861" path="res://entities/enemies/enemy.gd" id="1_nxdsj"]
+[ext_resource type="Texture2D" uid="uid://cn63jlq5lbve7" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_000.png" id="2_xiwr6"]
+[ext_resource type="Texture2D" uid="uid://svv7nyog0usy" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_001.png" id="3_650oi"]
+[ext_resource type="Texture2D" uid="uid://bs8mn0mb1m8a4" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_002.png" id="4_i3lnl"]
+[ext_resource type="Texture2D" uid="uid://dhtek2kmabof1" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_003.png" id="5_px1e4"]
+[ext_resource type="Texture2D" uid="uid://b7snxb8s32s1i" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_004.png" id="6_a0ao1"]
+[ext_resource type="Texture2D" uid="uid://dc6k0und2cmpa" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_005.png" id="7_b6uwh"]
+[ext_resource type="Texture2D" uid="uid://bn002plpjssl3" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_006.png" id="8_6u3b2"]
+[ext_resource type="Texture2D" uid="uid://jxil25kg3xtv" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_007.png" id="9_qipu4"]
+[ext_resource type="Texture2D" uid="uid://cp0w7c2k13abh" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_008.png" id="10_nuklq"]
+[ext_resource type="Texture2D" uid="uid://35r473c2mh7h" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_009.png" id="11_3itbr"]
+[ext_resource type="Texture2D" uid="uid://dhsbdyobir5j5" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_010.png" id="12_wjpjl"]
+[ext_resource type="Texture2D" uid="uid://dsbklv5lln7ha" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_011.png" id="13_apqer"]
+[ext_resource type="Texture2D" uid="uid://cq037nty8qae8" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_012.png" id="14_dccrk"]
+[ext_resource type="Texture2D" uid="uid://7ah1tv6cnl5h" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_013.png" id="15_k3vob"]
+[ext_resource type="Texture2D" uid="uid://d2lc51crpfdfk" path="res://entities/enemies/tank_enemy/animations/Dying/Dying_014.png" id="16_7s8lk"]
+[ext_resource type="Texture2D" uid="uid://csyn0w5r5gqp8" path="res://entities/enemies/tank_enemy/animations/Smoke/Smoke_000.png" id="17_j8mb3"]
+[ext_resource type="Texture2D" uid="uid://bj77gv3j78dwk" path="res://entities/enemies/tank_enemy/animations/Smoke/Smoke_001.png" id="18_7moqf"]
+[ext_resource type="Texture2D" uid="uid://b2hrpbmn5hqdx" path="res://entities/enemies/tank_enemy/animations/Smoke/Smoke_002.png" id="19_uul28"]
+[ext_resource type="Texture2D" uid="uid://c1omv700girks" path="res://entities/enemies/tank_enemy/animations/Smoke/Smoke_003.png" id="20_v0kya"]
+[ext_resource type="Texture2D" uid="uid://gw2o3k4rbwjy" path="res://entities/enemies/tank_enemy/animations/Smoke/Smoke_004.png" id="21_q176r"]
+[ext_resource type="Texture2D" uid="uid://dgl2ywelx0ohj" path="res://entities/enemies/tank_enemy/animations/Smoke/Smoke_005.png" id="22_ha0iw"]
+[ext_resource type="Texture2D" uid="uid://bdcj8ba3883by" path="res://entities/enemies/tank_enemy/animations/Smoke/Smoke_006.png" id="23_usak8"]
+[ext_resource type="Texture2D" uid="uid://bu6wxdrqmso0i" path="res://entities/enemies/tank_enemy/animations/Smoke/Smoke_007.png" id="24_xlow2"]
+[ext_resource type="Texture2D" uid="uid://c4edp1f444b86" path="res://entities/enemies/tank_enemy/animations/Smoke/Smoke_008.png" id="25_nw5f2"]
+[ext_resource type="Texture2D" uid="uid://cdujhth8qxy56" path="res://entities/enemies/tank_enemy/animations/Smoke/Smoke_009.png" id="26_8mmg4"]
+[ext_resource type="Texture2D" uid="uid://5uyr8f0sf0qv" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_000.png" id="27_nebpw"]
+[ext_resource type="Texture2D" uid="uid://cjjt4e2vylehw" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_001.png" id="28_byg3a"]
+[ext_resource type="Texture2D" uid="uid://bh71gqtyi68du" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_002.png" id="29_s72nm"]
+[ext_resource type="Texture2D" uid="uid://dev6mu5mttl60" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_003.png" id="30_vqnru"]
+[ext_resource type="Texture2D" uid="uid://dfkagshaq45sq" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_004.png" id="31_x40qk"]
+[ext_resource type="Texture2D" uid="uid://c440ttcoy76y7" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_005.png" id="32_i46hk"]
+[ext_resource type="Texture2D" uid="uid://b4y8ay4qr74q1" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_006.png" id="33_op2yg"]
+[ext_resource type="Texture2D" uid="uid://c8h3mr4wlmqe3" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_007.png" id="34_aljy4"]
+[ext_resource type="Texture2D" uid="uid://cohhd1rdxpyaq" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_008.png" id="35_y5vhd"]
+[ext_resource type="Texture2D" uid="uid://btlxrc4n1s06d" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_009.png" id="36_bufoi"]
+[ext_resource type="Texture2D" uid="uid://4mdifsacljfu" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_010.png" id="37_ri161"]
+[ext_resource type="Texture2D" uid="uid://bsw53ioiqqdvi" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_011.png" id="38_5f1hs"]
+[ext_resource type="Texture2D" uid="uid://bv4max01ejbvh" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_012.png" id="39_jptuc"]
+[ext_resource type="Texture2D" uid="uid://cpphwugeqcrct" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_013.png" id="40_y6rku"]
+[ext_resource type="Texture2D" uid="uid://bggv8ro57e0jl" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_014.png" id="41_mcegi"]
+[ext_resource type="Texture2D" uid="uid://cdswlwmk5k4o0" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_015.png" id="42_a1tpd"]
+[ext_resource type="Texture2D" uid="uid://c3q0di0eiwydy" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_016.png" id="43_jdxqp"]
+[ext_resource type="Texture2D" uid="uid://cnpfay7shme3j" path="res://entities/enemies/tank_enemy/animations/Walking/Walking_017.png" id="44_lxltu"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7nswv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_xiwr6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_650oi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_i3lnl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_px1e4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_a0ao1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_b6uwh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6u3b2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_qipu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_nuklq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_3itbr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_wjpjl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_apqer")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_dccrk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_k3vob")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_7s8lk")
+}],
+"loop": false,
+"name": &"dying",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("17_j8mb3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_7moqf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_uul28")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_v0kya")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_q176r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_ha0iw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_usak8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_xlow2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_nw5f2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_8mmg4")
+}],
+"loop": false,
+"name": &"smoke",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("27_nebpw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_byg3a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_s72nm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_vqnru")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_x40qk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_i46hk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_op2yg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_aljy4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_y5vhd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_bufoi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_ri161")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_5f1hs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_jptuc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_y6rku")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_mcegi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_a1tpd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_jdxqp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_lxltu")
+}],
+"loop": true,
+"name": &"walking",
+"speed": 24.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5s4bh"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vr86x"]
+radius = 47.0425
+
+[node name="TankEnemy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 6
+script = ExtResource("1_nxdsj")
+move_speed = 100.0
+max_health = 5
+health = 5
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, -13)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_7nswv")
+animation = &"walking"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5s4bh")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_vr86x")
