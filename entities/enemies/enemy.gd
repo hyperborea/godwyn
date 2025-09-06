@@ -16,6 +16,23 @@ enum State {
 @export var max_health: int = 2
 @export var health: int = 2
 
+# Animation configuration to allow variants to override names
+@export var anim_spawn: StringName = "smoke"
+@export var anim_move: StringName = "walking"
+@export var anim_die: StringName = "dying"
+@export var anim_idle: StringName = "idle"
+@export var anim_hurt: StringName = "" # Optional
+
+# Behavior configuration
+@export var always_chase_player: bool = false
+ 
+# Optional spritesheet config for move animation (used by Dragon)
+@export var use_move_spritesheet: bool = false
+@export var move_sheet_texture: Texture2D
+@export var move_sheet_columns: int = 8
+@export var move_sheet_rows: int = 1
+@export var move_sheet_frames: int = 8
+@export var move_anim_fps: float = 12.0
 signal enemy_died
 
 var _overlapping_player := false
@@ -27,6 +44,10 @@ func _ready() -> void:
 	if not player:
 		player = get_node("/root/World/Player")
 	
+	# Prepare spritesheet-based move animation if requested
+	if use_move_spritesheet and move_sheet_texture:
+		_build_move_animation_from_spritesheet()
+	
 	_spawn_with_smoke()
 	hitbox.body_entered.connect(_on_hitbox_entered)
 	hitbox.body_exited.connect(_on_hitbox_exited)
@@ -35,15 +56,22 @@ func _ready() -> void:
 func _spawn_with_smoke() -> void:
 	current_state = State.SPAWNING
 	
-	# Play smoke animation at normal speed
-	animated_sprite.play("smoke")
-	await animated_sprite.animation_finished
-	
-	# Add extra delay after smoke animation
-	await get_tree().create_timer(0.1).timeout
+	var frames := animated_sprite.sprite_frames
+	if anim_spawn != StringName("") and frames and frames.has_animation(anim_spawn):
+		animated_sprite.play(anim_spawn)
+		var loops := frames.get_animation_loop(anim_spawn)
+		if not loops:
+			await animated_sprite.animation_finished
+		else:
+			await get_tree().create_timer(0.2).timeout
+	else:
+		await get_tree().create_timer(0.1).timeout
 	
 	current_state = State.ALIVE
-	animated_sprite.play("walking")
+	if frames and frames.has_animation(anim_move):
+		animated_sprite.play(anim_move)
+	elif frames and frames.has_animation(anim_idle):
+		animated_sprite.play(anim_idle)
 
 
 func _process(_delta: float) -> void:
@@ -58,14 +86,17 @@ func _physics_process(_delta: float) -> void:
 	if current_state != State.ALIVE:
 		return
 
-	var distance_to_player = global_position.distance_to(player.global_position)
-	
-	if distance_to_player > movement_threshold:
-		var direction = global_position.direction_to(player.global_position)
+	var direction = global_position.direction_to(player.global_position)
+	if always_chase_player:
 		velocity = direction * move_speed
 		animated_sprite.flip_h = direction.x < 0
 	else:
-		velocity = Vector2.ZERO
+		var distance_to_player = global_position.distance_to(player.global_position)
+		if distance_to_player > movement_threshold:
+			velocity = direction * move_speed
+			animated_sprite.flip_h = direction.x < 0
+		else:
+			velocity = Vector2.ZERO
 
 	move_and_slide()
 
@@ -89,6 +120,12 @@ func take_damage(amount: int) -> void:
 	animated_sprite.modulate = Color.RED
 	await get_tree().create_timer(0.1).timeout
 	animated_sprite.modulate = Color.WHITE
+	var frames := animated_sprite.sprite_frames
+	if anim_hurt != StringName("") and frames and frames.has_animation(anim_hurt):
+		animated_sprite.play(anim_hurt)
+		await animated_sprite.animation_finished
+		if current_state == State.ALIVE and frames.has_animation(anim_move):
+			animated_sprite.play(anim_move)
 	
 	if health <= 0:
 		_die()
@@ -99,8 +136,47 @@ func _die() -> void:
 	_overlapping_player = false
 	
 	enemy_died.emit()
-	animated_sprite.play("dying")
-	await animated_sprite.animation_finished
-	animated_sprite.play("smoke")
-	await animated_sprite.animation_finished
+	var frames := animated_sprite.sprite_frames
+	if frames and frames.has_animation(anim_die):
+		animated_sprite.play(anim_die)
+		var loops := frames.get_animation_loop(anim_die)
+		if not loops:
+			await animated_sprite.animation_finished
+		else:
+			await get_tree().create_timer(0.2).timeout
 	queue_free()
+
+
+func _build_move_animation_from_spritesheet() -> void:
+	var frames := animated_sprite.sprite_frames
+	if frames == null:
+		return
+	if anim_move == StringName(""):
+		return
+	if not frames.has_animation(anim_move):
+		frames.add_animation(anim_move)
+	# Clear existing frames for move anim
+	frames.clear(anim_move)
+	# Compute frame size
+	var tex_size := move_sheet_texture.get_size()
+	if move_sheet_columns <= 0 or move_sheet_rows <= 0:
+		return
+	var cell_w: int = int(tex_size.x) / max(1, move_sheet_columns)
+	var cell_h: int = int(tex_size.y) / max(1, move_sheet_rows)
+	var total: int = max(1, move_sheet_frames)
+	var added := 0
+	# Iterate rows/cols to build atlas frames
+	for r in range(move_sheet_rows):
+		for c in range(move_sheet_columns):
+			if added >= total:
+				break
+			var region := Rect2(c * cell_w, r * cell_h, cell_w, cell_h)
+			var atlas := AtlasTexture.new()
+			atlas.atlas = move_sheet_texture
+			atlas.region = region
+			atlas.filter_clip = true
+			frames.add_frame(anim_move, atlas)
+			added += 1
+	# Set animation speed and loop
+	frames.set_animation_speed(anim_move, move_anim_fps)
+	frames.set_animation_loop(anim_move, true)

@@ -33,6 +33,10 @@ func _ready() -> void:
 	if next_wave_button:
 		next_wave_button.pressed.connect(_on_next_wave_pressed)
 
+	# Disable spawns for testing purposes
+	if spawner:
+		spawner.stop_spawning()
+
 func _on_enemy_killed_reward() -> void:
 	# retained for other rewards (not used for money now)
 	pass

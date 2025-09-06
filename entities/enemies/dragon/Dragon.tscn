@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://bts2dglxskt6u"]
+[gd_scene load_steps=15 format=3 uid="uid://bts2dglxskt6u"]
 
-[ext_resource type="Script" uid="uid://p012axl52861" path="res://entities/enemies/enemy.gd" id="1_mbjs6"]
+[ext_resource type="Script" uid="uid://icrd147qvist" path="res://entities/enemies/dragon/dragon.gd" id="1_mbjs6"]
 [ext_resource type="Texture2D" uid="uid://keusfhurxerc" path="res://entities/enemies/dragon/animations/Attack_1.png" id="2_23a5s"]
 [ext_resource type="Texture2D" uid="uid://x2gg20dysa5s" path="res://entities/enemies/dragon/animations/Attack_2.png" id="3_tevmg"]
 [ext_resource type="Texture2D" uid="uid://c6ve35cnlpim3" path="res://entities/enemies/dragon/animations/Dead.png" id="4_23553"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cmjsmo0d46hv1" path="res://entities/enemies/dragon/animations/Rise.png" id="9_s1mbq"]
 [ext_resource type="Texture2D" uid="uid://b5r4cfl2mg70l" path="res://entities/enemies/dragon/animations/Special.png" id="10_ju61o"]
 [ext_resource type="Texture2D" uid="uid://bvg8nv60ybnwo" path="res://entities/enemies/dragon/animations/Walk.png" id="11_bt4kv"]
+[ext_resource type="PackedScene" path="res://entities/enemies/dragon/fireball.tscn" id="12_fb"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7nswv"]
 animations = [{
@@ -23,7 +24,7 @@ animations = [{
 "speed": 24.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 2.0,
 "texture": ExtResource("3_tevmg")
 }],
 "loop": false,
@@ -95,18 +96,34 @@ animations = [{
 "speed": 24.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_23a5s"]
+size = Vector2(823, 259)
+
 [node name="Dragon" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 6
 safe_margin = 0.001
 script = ExtResource("1_mbjs6")
+fireball_scene = ExtResource("12_fb")
 move_speed = 250.0
 max_health = 100
 health = 100
+use_move_spritesheet = true
+move_sheet_texture = ExtResource("5_ytrcm")
+move_sheet_columns = 12
+move_sheet_frames = 12
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(8, -13)
+position = Vector2(-63, -433)
+scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_7nswv")
-animation = &"walk"
+animation = &"attack2"
+frame_progress = 1.0
 
 [node name="Hitbox" type="Area2D" parent="."]
+position = Vector2(438, 452)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-437, -452)
+shape = SubResource("RectangleShape2D_23a5s")

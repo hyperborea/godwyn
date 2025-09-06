@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://b8wmb4wcsiv8c"]
+[gd_scene load_steps=15 format=4 uid="uid://b8wmb4wcsiv8c"]
 
 [ext_resource type="PackedScene" uid="uid://ce6rkivqsallb" path="res://entities/player/player.tscn" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://cbugkqwtu3e06" path="res://world.gd" id="1_tlwt5"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://ui/shop_menu.tscn" id="7_shop_menu"]
 [ext_resource type="PackedScene" uid="uid://bayqlptjxbqld" path="res://entities/enemies/fast_enemy/fast_enemy.tscn" id="12_k3n1d"]
 [ext_resource type="PackedScene" uid="uid://nerqw4hoef0q" path="res://entities/enemies/tank_enemy/tank_enemy.tscn" id="13_2o6r5"]
+[ext_resource type="PackedScene" uid="uid://bts2dglxskt6u" path="res://entities/enemies/dragon/Dragon.tscn" id="14_dragon"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_tlwt5")
@@ -100,3 +101,6 @@ position = Vector2(644, 534)
 
 [node name="TankEnemy" parent="." instance=ExtResource("13_2o6r5")]
 position = Vector2(627, 1058)
+
+[node name="Dragon" parent="." instance=ExtResource("14_dragon")]
+position = Vector2(1100, 740)
