@@ -1,9 +1,9 @@
-[gd_scene load_steps=12 format=4 uid="uid://b8wmb4wcsiv8c"]
+[gd_scene load_steps=13 format=4 uid="uid://b8wmb4wcsiv8c"]
 
 [ext_resource type="PackedScene" uid="uid://ce6rkivqsallb" path="res://entities/player/player.tscn" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://cbugkqwtu3e06" path="res://world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://dfwajry7h2q7l" path="res://ui/health_bar.tscn" id="2_aqk2v"]
-[ext_resource type="PackedScene" uid="uid://bmwbsh74n6hno" path="res://entities/enemy/enemy.tscn" id="2_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://bmwbsh74n6hno" path="res://entities/enemies/basic_enemy/basic_enemy.tscn" id="2_fj7yv"]
 [ext_resource type="TileSet" uid="uid://c688padpwf0wo" path="res://terrain/tileset.tres" id="3_dwbse"]
 [ext_resource type="PackedScene" path="res://ui/game_timer.tscn" id="3_game_timer"]
 [ext_resource type="Script" uid="uid://d2g2ibloasrhx" path="res://entities/enemy_spawner.gd" id="3_spawner_script"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://ui/attack_timer.tscn" id="5_attack_timer"]
 [ext_resource type="PackedScene" path="res://ui/next_wave_button.tscn" id="6_next_wave_button"]
 [ext_resource type="PackedScene" path="res://ui/shop_menu.tscn" id="7_shop_menu"]
+[ext_resource type="PackedScene" uid="uid://bayqlptjxbqld" path="res://entities/enemies/fast_enemy/fast_enemy.tscn" id="12_k3n1d"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_tlwt5")
@@ -92,3 +93,6 @@ unique_name_in_owner = true
 script = ExtResource("3_spawner_script")
 enemy_scene = ExtResource("2_fj7yv")
 player = NodePath("../Player")
+
+[node name="FastEnemy" parent="." instance=ExtResource("12_k3n1d")]
+position = Vector2(644, 534)
