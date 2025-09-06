@@ -1,0 +1,112 @@
+[gd_scene load_steps=13 format=3 uid="uid://bts2dglxskt6u"]
+
+[ext_resource type="Script" uid="uid://p012axl52861" path="res://entities/enemies/enemy.gd" id="1_mbjs6"]
+[ext_resource type="Texture2D" uid="uid://keusfhurxerc" path="res://entities/enemies/dragon/animations/Attack_1.png" id="2_23a5s"]
+[ext_resource type="Texture2D" uid="uid://x2gg20dysa5s" path="res://entities/enemies/dragon/animations/Attack_2.png" id="3_tevmg"]
+[ext_resource type="Texture2D" uid="uid://c6ve35cnlpim3" path="res://entities/enemies/dragon/animations/Dead.png" id="4_23553"]
+[ext_resource type="Texture2D" uid="uid://boe1yc50nd5qr" path="res://entities/enemies/dragon/animations/Flight.png" id="5_ytrcm"]
+[ext_resource type="Texture2D" uid="uid://bdyar2d3hfxqs" path="res://entities/enemies/dragon/animations/Hurt.png" id="6_5gffr"]
+[ext_resource type="Texture2D" uid="uid://7g8b8dq6nh0x" path="res://entities/enemies/dragon/animations/Idle.png" id="7_uetyb"]
+[ext_resource type="Texture2D" uid="uid://csvhnvi47xe7g" path="res://entities/enemies/dragon/animations/Landing.png" id="8_tauap"]
+[ext_resource type="Texture2D" uid="uid://cmjsmo0d46hv1" path="res://entities/enemies/dragon/animations/Rise.png" id="9_s1mbq"]
+[ext_resource type="Texture2D" uid="uid://b5r4cfl2mg70l" path="res://entities/enemies/dragon/animations/Special.png" id="10_ju61o"]
+[ext_resource type="Texture2D" uid="uid://bvg8nv60ybnwo" path="res://entities/enemies/dragon/animations/Walk.png" id="11_bt4kv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7nswv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_23a5s")
+}],
+"loop": false,
+"name": &"attack1",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_tevmg")
+}],
+"loop": false,
+"name": &"attack2",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_23553")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ytrcm")
+}],
+"loop": true,
+"name": &"flight",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_5gffr")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_uetyb")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_tauap")
+}],
+"loop": true,
+"name": &"landing",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_s1mbq")
+}],
+"loop": true,
+"name": &"rise",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_ju61o")
+}],
+"loop": true,
+"name": &"special",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_bt4kv")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 24.0
+}]
+
+[node name="Dragon" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 6
+safe_margin = 0.001
+script = ExtResource("1_mbjs6")
+move_speed = 250.0
+max_health = 100
+health = 100
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, -13)
+sprite_frames = SubResource("SpriteFrames_7nswv")
+animation = &"walk"
+
+[node name="Hitbox" type="Area2D" parent="."]
