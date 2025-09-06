@@ -52,6 +52,8 @@ func _ready() -> void:
 	hitbox.body_entered.connect(_on_hitbox_entered)
 	hitbox.body_exited.connect(_on_hitbox_exited)
 
+	add_to_group("enemies")
+
 
 func _spawn_with_smoke() -> void:
 	current_state = State.SPAWNING

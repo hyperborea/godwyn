@@ -83,7 +83,6 @@ func _spawn_enemy() -> void:
 	if wave_bonus_health > 0:
 		enemy_instance.max_health += wave_bonus_health * health_per_wave_increase
 		enemy_instance.health = enemy_instance.max_health
-	enemy_instance.add_to_group("enemies")  # Add to group for weapon detection
 	get_parent().add_child(enemy_instance)
 	
 	# Track the enemy
@@ -98,7 +97,7 @@ func _spawn_multiple_enemies() -> void:
 	
 	for i in range(spawn_count):
 		if current_enemies.size() >= max_enemies:
-			break  # Stop if we've reached max enemies
+			break # Stop if we've reached max enemies
 		_spawn_enemy()
 
 func _on_enemy_died(enemy: Enemy) -> void:
